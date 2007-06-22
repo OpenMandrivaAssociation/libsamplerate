@@ -1,23 +1,21 @@
-%define name libsamplerate
-%define version 0.1.2
-%define release %mkrel 3
+%define prel pre5
 %define major 0
-%define libname %mklibname samplerate %major
+%define libname %mklibname samplerate %{major}
+%define develname %mklibname samplerate -d
 
-Summary: Audio Sample Rate Converter library
-Name: %{name}
-Version: %{version}
-Release: %{release}
-Source0: http://www.mega-nerd.com/SRC/%{name}-%{version}.tar.bz2
-URL: http://www.mega-nerd.com/SRC/index.html
-License: GPL
-Group: Sound
-BuildRoot: %{_tmppath}/%{name}-buildroot
-BuildRequires: libsndfile-devel
-BuildRequires: fftw-devel >= 3
+Summary:	Audio Sample Rate Converter library
+Name:		libsamplerate
+Version:	0.1.3
+Release:	%mkrel 0.%{prel}.1
+License:	GPL
+Group:		Sound
+URL:		http://www.mega-nerd.com/SRC/index.html
+Source0:	http://www.mega-nerd.com/SRC/%{name}-%{version}%{prel}.tar.bz2
+BuildRequires:	libsndfile-devel
+BuildRequires:	fftw-devel >= 3
+BuildRoot:	%{_tmppath}/%{name}-%{version-}buildroot
 
 %description
-
 Secret Rabbit Code (aka libsamplerate) is a Sample Rate Converter for
 audio. One example of where such a thing would be useful is
 converting audio from the CD sample rate of 44.1kHz to the 48kHz
@@ -35,11 +33,11 @@ signal-to-noise ratio of 97dB with -3dB passband extending from DC to
 96% of the theoretical best bandwidth for a given pair of input and
 output sample rates.
 
-%package -n %libname
-Summary: Audio Sample Rate Converter shared library
-Group: System/Libraries
+%package -n %{libname}
+Summary:	Audio Sample Rate Converter shared library
+Group:		System/Libraries
 
-%description -n %libname
+%description -n %{libname}
 Secret Rabbit Code (aka libsamplerate) is a Sample Rate Converter for
 audio. One example of where such a thing would be useful is
 converting audio from the CD sample rate of 44.1kHz to the 48kHz
@@ -58,15 +56,15 @@ signal-to-noise ratio of 97dB with -3dB passband extending from DC to
 output sample rates.
 
 This package contains the shared library required for running programs
-using %name.
+using %{name}.
 
-%package -n %libname-devel
-Summary: Audio Sample Rate Converter development files
-Group: Development/C
-Requires: %libname = %version
-Provides: %{name}-devel = %version-%release 
+%package -n %{develname}
+Summary:	Audio Sample Rate Converter development files
+Group:		Development/C
+Requires:	%{libname} = %{version}-%{release}
+Obsoletes:	%{libname}-devel
 
-%description -n %libname-devel
+%description -n %{develname}
 Secret Rabbit Code (aka libsamplerate) is a Sample Rate Converter for
 audio. One example of where such a thing would be useful is
 converting audio from the CD sample rate of 44.1kHz to the 48kHz
@@ -85,7 +83,7 @@ signal-to-noise ratio of 97dB with -3dB passband extending from DC to
 output sample rates.
 
 This package contains the C headers and other files needed to compile
-programs with %name.
+programs with %{name}.
 
 %package progs
 Summary: Audio Sample Rate Converter
@@ -109,10 +107,10 @@ signal-to-noise ratio of 97dB with -3dB passband extending from DC to
 96% of the theoretical best bandwidth for a given pair of input and
 output sample rates.
 
-This package contains a command line utility based on %name.
+This package contains a command line utility based on %{name}.
 
 %prep
-%setup -q
+%setup -qn %{name}-%{version}%{prel}
 
 %build
 %configure2_5x
@@ -122,30 +120,28 @@ This package contains a command line utility based on %name.
 make check
 
 %install
-rm -rf $RPM_BUILD_ROOT
-%makeinstall_std transform=""
+rm -rf %{buildroot}
+%makeinstall_std
 
 %clean
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
 
-%post -n %libname -p /sbin/ldconfig
-%postun -n %libname -p /sbin/ldconfig
+%post -n %{libname} -p /sbin/ldconfig
+%postun -n %{libname} -p /sbin/ldconfig
 
-%files -n %libname
+%files -n %{libname}
 %defattr(-,root,root)
-%_libdir/*.so.*
+%{_libdir}/*.so.%{major}*
 
-%files -n %libname-devel
+%files -n %{develname}
 %defattr(-,root,root)
 %doc doc/*
-%_libdir/*.so
-%_libdir/*a
-%_libdir/pkgconfig/samplerate.pc
-%_includedir/samplerate.h
+%{_libdir}/*.so
+%{_libdir}/*a
+%{_libdir}/pkgconfig/samplerate.pc
+%{_includedir}/samplerate.h
 
 %files progs
 %defattr(-,root,root)
 %doc AUTHORS ChangeLog
-%_bindir/sndfile-resample
-
-
+%{_bindir}/sndfile-resample
