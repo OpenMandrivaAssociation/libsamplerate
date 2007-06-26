@@ -6,7 +6,7 @@
 Summary:	Audio Sample Rate Converter library
 Name:		libsamplerate
 Version:	0.1.3
-Release:	%mkrel 0.%{prel}.1
+Release:	%mkrel 0.%{prel}.2
 License:	GPL
 Group:		Sound
 URL:		http://www.mega-nerd.com/SRC/index.html
@@ -63,6 +63,7 @@ Summary:	Audio Sample Rate Converter development files
 Group:		Development/C
 Requires:	%{libname} = %{version}-%{release}
 Obsoletes:	%{libname}-devel
+Provides:	%{name}-devel %{version}-%{release}
 
 %description -n %{develname}
 Secret Rabbit Code (aka libsamplerate) is a Sample Rate Converter for
