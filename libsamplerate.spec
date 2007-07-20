@@ -1,4 +1,4 @@
-%define prel pre5
+%define prel pre6
 %define major 0
 %define libname %mklibname samplerate %{major}
 %define develname %mklibname samplerate -d
@@ -6,7 +6,7 @@
 Summary:	Audio Sample Rate Converter library
 Name:		libsamplerate
 Version:	0.1.3
-Release:	%mkrel 0.%{prel}.2
+Release:	%mkrel 0.%{prel}.1
 License:	GPL
 Group:		Sound
 URL:		http://www.mega-nerd.com/SRC/index.html
