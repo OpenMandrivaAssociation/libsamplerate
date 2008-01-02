@@ -13,6 +13,7 @@ URL:		http://www.mega-nerd.com/SRC/index.html
 Source0:	http://www.mega-nerd.com/SRC/%{name}-%{version}%{prel}.tar.bz2
 BuildRequires:	libsndfile-devel
 BuildRequires:	fftw-devel >= 3
+BuildRoot:	%{_tmppath}/%{name}-%{version-}buildroot
 
 %description
 Secret Rabbit Code (aka libsamplerate) is a Sample Rate Converter for
