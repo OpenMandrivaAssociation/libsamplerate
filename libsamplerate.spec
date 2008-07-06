@@ -4,7 +4,7 @@
 
 Summary:	Audio Sample Rate Converter library
 Name:		libsamplerate
-Version:	0.1.3
+Version:	0.1.4
 Release:	%mkrel 1
 License:	GPLv2+
 Group:		Sound
@@ -32,7 +32,7 @@ signal-to-noise ratio of 97dB with -3dB passband extending from DC to
 96% of the theoretical best bandwidth for a given pair of input and
 output sample rates.
 
-%package -n	%{libname}
+%package -n %{libname}
 Summary:	Audio Sample Rate Converter shared library
 Group:		System/Libraries
 
@@ -57,11 +57,11 @@ output sample rates.
 This package contains the shared library required for running programs
 using %{name}.
 
-%package -n	%{develname}
+%package -n %{develname}
 Summary:	Audio Sample Rate Converter development files
 Group:		Development/C
 Requires:	%{libname} = %{version}-%{release}
-Obsoletes:	%{libname}-devel
+Obsoletes:	%{libname}-devel < 0.1.4
 Provides:	%{name}-devel = %{version}-%{release}
 
 %description -n	%{develname}
@@ -85,11 +85,11 @@ output sample rates.
 This package contains the C headers and other files needed to compile
 programs with %{name}.
 
-%package	progs
+%package progs
 Summary:	Audio Sample Rate Converter
 Group:		Sound
 
-%description	progs
+%description progs
 Secret Rabbit Code (aka libsamplerate) is a Sample Rate Converter for
 audio. One example of where such a thing would be useful is
 converting audio from the CD sample rate of 44.1kHz to the 48kHz
