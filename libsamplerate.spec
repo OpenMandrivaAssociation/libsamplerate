@@ -4,13 +4,12 @@
 
 Summary:	Audio Sample Rate Converter library
 Name:		libsamplerate
-Version:	0.1.5
+Version:	0.1.6
 Release:	%mkrel 1
 License:	GPLv2+
 Group:		Sound
 URL:		http://www.mega-nerd.com/SRC/index.html
 Source0:	http://www.mega-nerd.com/SRC/%{name}-%{version}.tar.gz
-Patch: libsamplerate-0.1.5-fix-check.patch
 BuildRequires:	libsndfile-devel
 BuildRequires:	fftw-devel >= 3
 BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
@@ -111,9 +110,7 @@ output sample rates.
 This package contains a command line utility based on %{name}.
 
 %prep
-
 %setup -qn %{name}-%{version}
-%patch -p1
 
 %build
 %configure2_5x
