@@ -4,7 +4,7 @@
 
 Summary:	Audio Sample Rate Converter library
 Name:		libsamplerate
-Version:	0.1.6
+Version:	0.1.7
 Release:	%mkrel 1
 License:	GPLv2+
 Group:		Sound
