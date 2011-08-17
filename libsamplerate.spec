@@ -4,8 +4,8 @@
 
 Summary:	Audio Sample Rate Converter library
 Name:		libsamplerate
-Version:	0.1.7
-Release:	%mkrel 5
+Version:	0.1.8
+Release:	%mkrel 1
 License:	GPLv2+
 Group:		Sound
 URL:		http://www.mega-nerd.com/SRC/index.html
@@ -123,17 +123,11 @@ This package contains a command line utility based on %{name}.
 %install
 rm -rf %{buildroot}
 %makeinstall_std
+rm -rf %buildroot%_datadir/doc/libsamplerate0-dev
 
 %clean
 rm -rf %{buildroot}
 
-%if %mdkversion < 200900
-%post -n %{libname} -p /sbin/ldconfig
-%endif
-
-%if %mdkversion < 200900
-%postun -n %{libname} -p /sbin/ldconfig
-%endif
 
 %files -n %{libname}
 %defattr(-,root,root)
