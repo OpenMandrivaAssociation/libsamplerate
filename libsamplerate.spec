@@ -10,7 +10,7 @@ License:	GPLv2+
 Group:		Sound
 URL:		http://www.mega-nerd.com/SRC/index.html
 Source0:	http://www.mega-nerd.com/SRC/%{name}-%{version}.tar.gz
-BuildRequires:	pkgconifg(sndfile)
+BuildRequires:	pkgconfig(sndfile)
 BuildRequires:	pkgconfig(fftw3) >= 3
 
 %description
