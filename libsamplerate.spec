@@ -10,8 +10,8 @@ License:	GPLv2+
 Group:		Sound
 URL:		http://www.mega-nerd.com/SRC/index.html
 Source0:	http://www.mega-nerd.com/SRC/%{name}-%{version}.tar.gz
-BuildRequires:	libsndfile-devel
-BuildRequires:	fftw-devel >= 3
+BuildRequires:	pkgconifg(sndfile)
+BuildRequires:	pkgconfig(fftw3) >= 3
 
 %description
 Secret Rabbit Code (aka libsamplerate) is a Sample Rate Converter for
