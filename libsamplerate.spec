@@ -1,18 +1,17 @@
-%define major 0
-%define libname %mklibname samplerate %{major}
-%define develname %mklibname samplerate -d
+%define	major	0
+%define	libname	%mklibname samplerate %{major}
+%define	devname	%mklibname samplerate -d
 
 Summary:	Audio Sample Rate Converter library
 Name:		libsamplerate
 Version:	0.1.8
-Release:	%mkrel 1
+Release:	2
 License:	GPLv2+
 Group:		Sound
 URL:		http://www.mega-nerd.com/SRC/index.html
 Source0:	http://www.mega-nerd.com/SRC/%{name}-%{version}.tar.gz
 BuildRequires:	libsndfile-devel
 BuildRequires:	fftw-devel >= 3
-BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 
 %description
 Secret Rabbit Code (aka libsamplerate) is a Sample Rate Converter for
@@ -32,7 +31,7 @@ signal-to-noise ratio of 97dB with -3dB passband extending from DC to
 96% of the theoretical best bandwidth for a given pair of input and
 output sample rates.
 
-%package -n %{libname}
+%package -n	%{libname}
 Summary:	Audio Sample Rate Converter shared library
 Group:		System/Libraries
 
@@ -57,14 +56,14 @@ output sample rates.
 This package contains the shared library required for running programs
 using %{name}.
 
-%package -n %{develname}
+%package -n	%{devname}
 Summary:	Audio Sample Rate Converter development files
 Group:		Development/C
 Requires:	%{libname} = %{version}-%{release}
 Obsoletes:	%{libname}-devel < 0.1.4
 Provides:	%{name}-devel = %{version}-%{release}
 
-%description -n	%{develname}
+%description -n	%{devname}
 Secret Rabbit Code (aka libsamplerate) is a Sample Rate Converter for
 audio. One example of where such a thing would be useful is
 converting audio from the CD sample rate of 44.1kHz to the 48kHz
@@ -85,11 +84,11 @@ output sample rates.
 This package contains the C headers and other files needed to compile
 programs with %{name}.
 
-%package progs
+%package	progs
 Summary:	Audio Sample Rate Converter
 Group:		Sound
 
-%description progs
+%description	progs
 Secret Rabbit Code (aka libsamplerate) is a Sample Rate Converter for
 audio. One example of where such a thing would be useful is
 converting audio from the CD sample rate of 44.1kHz to the 48kHz
@@ -110,7 +109,7 @@ output sample rates.
 This package contains a command line utility based on %{name}.
 
 %prep
-%setup -qn %{name}-%{version}
+%setup -q
 
 %build
 %configure2_5x
@@ -121,27 +120,19 @@ This package contains a command line utility based on %{name}.
 #make check
 
 %install
-rm -rf %{buildroot}
 %makeinstall_std
-rm -rf %buildroot%_datadir/doc/libsamplerate0-dev
-
-%clean
-rm -rf %{buildroot}
-
+rm -rf %{buildroot}%{_datadir}/doc/libsamplerate0-dev
 
 %files -n %{libname}
-%defattr(-,root,root)
-%{_libdir}/*.so.%{major}*
+%{_libdir}/libsamplerate.so.%{major}*
 
-%files -n %{develname}
-%defattr(-,root,root)
+%files -n %{devname}
 %doc doc/*
-%{_libdir}/*.so
-%{_libdir}/*a
+%{_libdir}/libsamplerate.so
+%{_libdir}/libsamplerate.a
 %{_libdir}/pkgconfig/samplerate.pc
 %{_includedir}/samplerate.h
 
 %files progs
-%defattr(-,root,root)
 %doc AUTHORS ChangeLog
 %{_bindir}/sndfile-resample
