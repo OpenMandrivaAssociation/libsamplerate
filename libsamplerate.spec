@@ -116,8 +116,7 @@ This package contains a command line utility based on %{name}.
 %make
 
 %check
-#gw one check fails in 0.1.7 on x86_64
-#make check
+make check
 
 %install
 %makeinstall_std
