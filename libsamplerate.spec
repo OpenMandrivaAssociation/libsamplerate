@@ -60,7 +60,6 @@ using %{name}.
 Summary:	Audio Sample Rate Converter development files
 Group:		Development/C
 Requires:	%{libname} = %{version}-%{release}
-Obsoletes:	%{libname}-devel < 0.1.4
 Provides:	%{name}-devel = %{version}-%{release}
 
 %description -n	%{devname}
