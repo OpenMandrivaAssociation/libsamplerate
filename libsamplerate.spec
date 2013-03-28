@@ -111,6 +111,7 @@ This package contains a command line utility based on %{name}.
 %setup -q
 
 %build
+autoreconf -fi
 %configure2_5x
 %make
 
