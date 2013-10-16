@@ -5,7 +5,7 @@
 Summary:	Audio Sample Rate Converter library
 Name:		libsamplerate
 Version:	0.1.8
-Release:	4
+Release:	5
 License:	GPLv2+
 Group:		Sound
 Url:		http://www.mega-nerd.com/SRC/index.html
