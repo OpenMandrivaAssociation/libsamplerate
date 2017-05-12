@@ -4,8 +4,8 @@
 
 Summary:	Audio Sample Rate Converter library
 Name:		libsamplerate
-Version:	0.1.8
-Release:	17
+Version:	0.1.9
+Release:	1
 License:	GPLv2+
 Group:		Sound
 Url:		http://www.mega-nerd.com/SRC/index.html
@@ -78,7 +78,7 @@ This package contains a command line utility based on %{name}.
 autoreconf -fi
 
 %build
-%configure2_5x --disable-static
+%configure --disable-static
 %make
 
 %check
