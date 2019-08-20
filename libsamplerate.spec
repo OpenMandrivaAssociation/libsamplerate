@@ -3,6 +3,8 @@
 %define devname %mklibname samplerate -d
 %global optflags %{optflags} -O3
 
+%bcond_without pgo
+
 Summary:	Audio Sample Rate Converter library
 Name:		libsamplerate
 Version:	0.1.9
@@ -13,6 +15,7 @@ Url:		http://www.mega-nerd.com/SRC/index.html
 Source0:	http://www.mega-nerd.com/SRC/%{name}-%{version}.tar.gz
 BuildRequires:	pkgconfig(fftw3) >= 3
 BuildRequires:	pkgconfig(sndfile)
+BuildRequires:	pkgconfig(alsa)
 
 %description
 Secret Rabbit Code (aka libsamplerate) is a Sample Rate Converter for
@@ -79,6 +82,34 @@ This package contains a command line utility based on %{name}.
 autoreconf -fi
 
 %build
+%if %{with pgo}
+export LLVM_PROFILE_FILE=%{name}-%p.profile.d
+export LD_LIBRARY_PATH="$(pwd)"
+CFLAGS="%{optflags} -fprofile-instr-generate" \
+CXXFLAGS="%{optflags} -fprofile-instr-generate" \
+FFLAGS="$CFLAGS" \
+FCFLAGS="$CFLAGS" \
+LDFLAGS="%{ldflags} -fprofile-instr-generate" \
+%configure --disable-static
+
+# Don't use rpath!
+sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
+sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
+
+%make_build
+
+export LD_LIBRARY_PATH="$(pwd)/src/.libs"
+make check
+unset LD_LIBRARY_PATH
+unset LLVM_PROFILE_FILE
+llvm-profdata merge --output=%{name}.profile *.profile.d
+
+make clean
+
+CFLAGS="%{optflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
+CXXFLAGS="%{optflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
+LDFLAGS="%{ldflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
+%endif
 %configure --disable-static
 
 # Don't use rpath!
