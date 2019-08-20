@@ -1,11 +1,12 @@
-%define	major	0
-%define	libname	%mklibname samplerate %{major}
-%define	devname	%mklibname samplerate -d
+%define major 0
+%define libname %mklibname samplerate %{major}
+%define devname %mklibname samplerate -d
+%global optflags %{optflags} -O3
 
 Summary:	Audio Sample Rate Converter library
 Name:		libsamplerate
 Version:	0.1.9
-Release:	4
+Release:	5
 License:	GPLv2+
 Group:		Sound
 Url:		http://www.mega-nerd.com/SRC/index.html
@@ -31,29 +32,29 @@ signal-to-noise ratio of 97dB with -3dB passband extending from DC to
 96% of the theoretical best bandwidth for a given pair of input and
 output sample rates.
 
-%package -n	%{libname}
+%package -n %{libname}
 Summary:	Audio Sample Rate Converter shared library
 Group:		System/Libraries
 
-%description -n	%{libname}
+%description -n %{libname}
 This package contains the shared library required for running programs
 using %{name}.
 
-%package -n	%{devname}
+%package -n %{devname}
 Summary:	Audio Sample Rate Converter development files
 Group:		Development/C
 Requires:	%{libname} = %{version}-%{release}
 Provides:	%{name}-devel = %{version}-%{release}
 
-%description -n	%{devname}
+%description -n %{devname}
 This package contains the C headers and other files needed to compile
 programs with %{name}.
 
-%package	progs
+%package progs
 Summary:	Audio Sample Rate Converter
 Group:		Sound
 
-%description	progs
+%description progs
 Secret Rabbit Code (aka libsamplerate) is a Sample Rate Converter for
 audio. One example of where such a thing would be useful is
 converting audio from the CD sample rate of 44.1kHz to the 48kHz
@@ -79,13 +80,20 @@ autoreconf -fi
 
 %build
 %configure --disable-static
-%make
+
+# Don't use rpath!
+sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
+sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
+
+%make_build
 
 %check
+export LD_LIBRARY_PATH="$(pwd)/src/.libs"
 make check
+unset LD_LIBRARY_PATH
 
 %install
-%makeinstall_std
+%make_install
 rm -rf %{buildroot}%{_datadir}/doc/libsamplerate0-dev
 
 %files -n %{libname}
@@ -100,4 +108,3 @@ rm -rf %{buildroot}%{_datadir}/doc/libsamplerate0-dev
 %files progs
 %doc AUTHORS ChangeLog
 %{_bindir}/sndfile-resample
-
