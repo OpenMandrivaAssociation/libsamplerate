@@ -16,12 +16,12 @@
 
 Summary:	Audio Sample Rate Converter library
 Name:		libsamplerate
-Version:	0.1.9
-Release:	6
+Version:	0.2.2
+Release:	1
 License:	GPLv2+
 Group:		Sound
-Url:		http://www.mega-nerd.com/SRC/index.html
-Source0:	http://www.mega-nerd.com/SRC/%{name}-%{version}.tar.gz
+URL:		https://libsndfile.github.io/libsamplerate/
+Source0:	https://github.com/libsndfile/%{name}/releases/download/%{version}/%{name}-%{version}.tar.xz
 BuildRequires:	pkgconfig(fftw3) >= 3
 BuildRequires:	pkgconfig(sndfile)
 BuildRequires:	pkgconfig(alsa)
