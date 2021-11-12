@@ -12,7 +12,7 @@
 %define dev32name %mklib32name samplerate -d
 %global optflags %{optflags} -O3
 
-%bcond_without pgo
+%bcond_with pgo
 
 Summary:	Audio Sample Rate Converter library
 Name:		libsamplerate
