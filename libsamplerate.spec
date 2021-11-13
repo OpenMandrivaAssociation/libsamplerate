@@ -194,7 +194,8 @@ rm -rf %{buildroot}%{_datadir}/doc/libsamplerate0-dev
 %{_includedir}/samplerate.h
 
 %files progs
-%doc AUTHORS ChangeLog
+%doc AUTHORS ChangeLog 
+%doc %{_datadir}/doc/libsamplerate/*
 #{_bindir}/sndfile-resample
 
 %if %{with compat32}
