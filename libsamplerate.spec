@@ -189,7 +189,6 @@ rm -rf %{buildroot}%{_datadir}/doc/libsamplerate0-dev
 %{_libdir}/libsamplerate.so.%{major}*
 
 %files -n %{devname}
-%doc doc/*
 %{_libdir}/libsamplerate.so
 %{_libdir}/pkgconfig/samplerate.pc
 %{_includedir}/samplerate.h
