@@ -12,16 +12,16 @@
 %define dev32name %mklib32name samplerate -d
 %global optflags %{optflags} -O3
 
-%bcond_without pgo
+%bcond_with pgo
 
 Summary:	Audio Sample Rate Converter library
 Name:		libsamplerate
-Version:	0.1.9
-Release:	6
+Version:	0.2.2
+Release:	1
 License:	GPLv2+
 Group:		Sound
-Url:		http://www.mega-nerd.com/SRC/index.html
-Source0:	http://www.mega-nerd.com/SRC/%{name}-%{version}.tar.gz
+URL:		https://libsndfile.github.io/libsamplerate/
+Source0:	https://github.com/libsndfile/%{name}/releases/download/%{version}/%{name}-%{version}.tar.xz
 BuildRequires:	pkgconfig(fftw3) >= 3
 BuildRequires:	pkgconfig(sndfile)
 BuildRequires:	pkgconfig(alsa)
@@ -85,30 +85,6 @@ Requires:	%{lib32name} = %{version}-%{release}
 This package contains the C headers and other files needed to compile
 programs with %{name}.
 %endif
-
-%package progs
-Summary:	Audio Sample Rate Converter
-Group:		Sound
-
-%description progs
-Secret Rabbit Code (aka libsamplerate) is a Sample Rate Converter for
-audio. One example of where such a thing would be useful is
-converting audio from the CD sample rate of 44.1kHz to the 48kHz
-sample rate used by DAT players.
-
-SRC is capable of arbitrary and time varying conversions ; from
-downsampling by a factor of 12 to upsampling by the same
-factor. Arbitrary in this case means that the ratio of input and
-output sample rates can be an irrational number. The conversion ratio
-can also vary with time for speeding up and slowing down effects.
-
-SRC provides a small set of converters to allow quality to be traded
-off against computation cost. The current best converter provides a
-signal-to-noise ratio of 97dB with -3dB passband extending from DC to
-96% of the theoretical best bandwidth for a given pair of input and
-output sample rates.
-
-This package contains a command line utility based on %{name}.
 
 %prep
 %setup -q
@@ -189,14 +165,11 @@ rm -rf %{buildroot}%{_datadir}/doc/libsamplerate0-dev
 %{_libdir}/libsamplerate.so.%{major}*
 
 %files -n %{devname}
-%doc doc/*
 %{_libdir}/libsamplerate.so
 %{_libdir}/pkgconfig/samplerate.pc
 %{_includedir}/samplerate.h
-
-%files progs
-%doc AUTHORS ChangeLog
-%{_bindir}/sndfile-resample
+%doc AUTHORS ChangeLog 
+%doc %{_datadir}/doc/libsamplerate/*
 
 %if %{with compat32}
 %files -n %{lib32name}
