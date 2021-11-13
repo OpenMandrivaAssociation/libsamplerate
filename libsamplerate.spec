@@ -86,30 +86,6 @@ This package contains the C headers and other files needed to compile
 programs with %{name}.
 %endif
 
-%package progs
-Summary:	Audio Sample Rate Converter
-Group:		Sound
-
-%description progs
-Secret Rabbit Code (aka libsamplerate) is a Sample Rate Converter for
-audio. One example of where such a thing would be useful is
-converting audio from the CD sample rate of 44.1kHz to the 48kHz
-sample rate used by DAT players.
-
-SRC is capable of arbitrary and time varying conversions ; from
-downsampling by a factor of 12 to upsampling by the same
-factor. Arbitrary in this case means that the ratio of input and
-output sample rates can be an irrational number. The conversion ratio
-can also vary with time for speeding up and slowing down effects.
-
-SRC provides a small set of converters to allow quality to be traded
-off against computation cost. The current best converter provides a
-signal-to-noise ratio of 97dB with -3dB passband extending from DC to
-96% of the theoretical best bandwidth for a given pair of input and
-output sample rates.
-
-This package contains a command line utility based on %{name}.
-
 %prep
 %setup -q
 autoreconf -fi
@@ -192,11 +168,8 @@ rm -rf %{buildroot}%{_datadir}/doc/libsamplerate0-dev
 %{_libdir}/libsamplerate.so
 %{_libdir}/pkgconfig/samplerate.pc
 %{_includedir}/samplerate.h
-
-%files progs
 %doc AUTHORS ChangeLog 
 %doc %{_datadir}/doc/libsamplerate/*
-#{_bindir}/sndfile-resample
 
 %if %{with compat32}
 %files -n %{lib32name}
