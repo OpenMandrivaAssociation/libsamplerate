@@ -195,7 +195,7 @@ rm -rf %{buildroot}%{_datadir}/doc/libsamplerate0-dev
 
 %files progs
 %doc AUTHORS ChangeLog
-%{_bindir}/sndfile-resample
+#{_bindir}/sndfile-resample
 
 %if %{with compat32}
 %files -n %{lib32name}
