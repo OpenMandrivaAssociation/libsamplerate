@@ -12,12 +12,12 @@
 %define dev32name %mklib32name samplerate -d
 %global optflags %{optflags} -O3
 
-%bcond_with pgo
+%bcond_without pgo
 
 Summary:	Audio Sample Rate Converter library
 Name:		libsamplerate
 Version:	0.2.2
-Release:	1
+Release:	2
 License:	GPLv2+
 Group:		Sound
 URL:		https://libsndfile.github.io/libsamplerate/
@@ -105,13 +105,11 @@ mkdir build
 cd build
 
 %if %{with pgo}
-export LLVM_PROFILE_FILE=%{name}-%p.profile.d
 export LD_LIBRARY_PATH="$(pwd)"
-CFLAGS="%{optflags} -fprofile-instr-generate" \
-CXXFLAGS="%{optflags} -fprofile-instr-generate" \
-FFLAGS="$CFLAGS" \
-FCFLAGS="$CFLAGS" \
-LDFLAGS="%{ldflags} -fprofile-instr-generate" \
+
+CFLAGS="%{optflags} -fprofile-generate -mllvm -vp-counters-per-site=16" \
+CXXFLAGS="%{optflags} -fprofile-generate" \
+LDFLAGS="%{build_ldflags} -fprofile-generate" \
 %configure --disable-static
 
 # Don't use rpath!
@@ -122,15 +120,16 @@ sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
 
 export LD_LIBRARY_PATH="$(pwd)/src/.libs"
 make check
-unset LD_LIBRARY_PATH
-unset LLVM_PROFILE_FILE
-llvm-profdata merge --output=%{name}.profile *.profile.d
 
+unset LD_LIBRARY_PATH
+llvm-profdata merge --output=%{name}-llvm.profdata $(find . -name "*.profraw" -type f)
+PROFDATA="$(realpath %{name}-llvm.profdata)"
+rm -f *.profraw
 make clean
 
-CFLAGS="%{optflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
-CXXFLAGS="%{optflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
-LDFLAGS="%{ldflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
+CFLAGS="%{optflags} -fprofile-use=$PROFDATA" \
+CXXFLAGS="%{optflags} -fprofile-use=$PROFDATA" \
+LDFLAGS="%{build_ldflags} -fprofile-use=$PROFDATA" \
 %endif
 %configure --disable-static
 
@@ -168,7 +167,7 @@ rm -rf %{buildroot}%{_datadir}/doc/libsamplerate0-dev
 %{_libdir}/libsamplerate.so
 %{_libdir}/pkgconfig/samplerate.pc
 %{_includedir}/samplerate.h
-%doc AUTHORS ChangeLog 
+%doc AUTHORS ChangeLog
 %doc %{_datadir}/doc/libsamplerate/*
 
 %if %{with compat32}
