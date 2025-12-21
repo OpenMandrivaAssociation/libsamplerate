@@ -22,6 +22,11 @@ License:	GPLv2+
 Group:		Sound
 URL:		https://libsndfile.github.io/libsamplerate/
 Source0:	https://github.com/libsndfile/%{name}/releases/download/%{version}/%{name}-%{version}.tar.xz
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
+BuildRequires:	make
 BuildRequires:	pkgconfig(fftw3) >= 3
 BuildRequires:	pkgconfig(sndfile)
 BuildRequires:	pkgconfig(alsa)
